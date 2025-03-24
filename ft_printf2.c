@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_printf2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mikelzabal <mikelzabal@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/20 12:52:34 by mikelzabal        #+#    #+#             */
-/*   Updated: 2025/03/21 12:14:52 by mikelzabal       ###   ########.fr       */
+/*   Created: 2025/03/21 12:15:55 by mikelzabal        #+#    #+#             */
+/*   Updated: 2025/03/21 12:31:28 by mikelzabal       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>  
+#include <unistd.h>
 #include <stdarg.h>
 
 void    ft_putstr(char *s, int *count)
@@ -18,8 +18,9 @@ void    ft_putstr(char *s, int *count)
 	if (!s)
 		s = "(null)";
 	while (*s)
-		*count += write (1, s++, 1);
-} 
+		*count += write(1, s++, 1);
+}
+
 void    ft_putnbr(long n, int base, int *count)
 {
 	if (n < 0)
@@ -31,13 +32,14 @@ void    ft_putnbr(long n, int base, int *count)
 		ft_putnbr(n / base, base, count);
 	*count += write (1, &"0123456789abcdef"[n % base], 1);
 }
-int ft_printf(const char *format, ...)
+
+int     ft_printf(const char *format, ...)
 {
 	va_list args;
-	int count = 0;
-
+	int     count = 0;
+	
 	va_start(args, format);
-	while (*format)
+	while(*format)
 	{
 		if (*format == '%' && *(format + 1))
 		{
@@ -46,7 +48,7 @@ int ft_printf(const char *format, ...)
 				ft_putstr(va_arg(args, char*), &count);
 			else if (*format == 'd')
 				ft_putnbr(va_arg(args, int), 10, &count);
-			else if (*format == 'x')
+			else if(*format == 'x')
 				ft_putnbr(va_arg(args, unsigned int), 16, &count);
 		}
 		else
